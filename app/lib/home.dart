@@ -69,15 +69,17 @@ class ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  void downloadList() {
+  void downloadList() async {
     var toParse;
     var url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/sync?access_token=${globals.token}";
-    http.get(url).then((response) {
-      toParse = json.decode(response.body);
-    });
+    var response = await http.get(url);
+    toParse = json.decode(response.body);
+    print(toParse);
     var toList = toParse['rooms']['join']['!QTariydDPoGYvWlazW:counterproducktivechat.tk']['timeline']['events'];
+    print(toList);
     for(var i = 0; i < toList.length; ++i) {
-      print(toList[i]);
+      var a = toList[i]['content']['body'];
+      print(a);
     }
   }
 
