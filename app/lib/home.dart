@@ -26,9 +26,6 @@ class ChatScreen extends StatefulWidget {
 class ChatScreenState extends State<ChatScreen> {
   final List<ChatMessage> messages = <ChatMessage>[];
   final TextEditingController textController = new TextEditingController();
-  bool _enabled = true;
-  int _status = 0;
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +75,10 @@ class ChatScreenState extends State<ChatScreen> {
     http.get(url).then((response) {
       toParse = json.decode(response.body);
     });
-    textController.clear();
-    ChatMessage message = new ChatMessage(
-      text: 'testing',
-    );
-    setState(() {
-      messages.insert(0, message);
-    });
+    var toList = toParse['rooms']['join']['!QTariydDPoGYvWlazW:counterproducktivechat.tk']['timeline']['events'];
+    for(var i = 0; i < toList.length; ++i) {
+      print(toList[i]);
+    }
   }
 
   Widget buildTextComposer() {

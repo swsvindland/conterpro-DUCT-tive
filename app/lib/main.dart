@@ -5,7 +5,7 @@ import 'home.dart' as home;
 
 void main() {
   runApp(MyApp());
-  const oneSecond = const Duration(seconds:30);
+  const oneSecond = const Duration(seconds:5);
   new Timer.periodic(oneSecond, (Timer t) => (home.ChatScreenState().downloadList()));
 }
 
