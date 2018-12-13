@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-
+import 'home.dart';
 
 enum FormMode {
   SIGNIN, 
@@ -9,10 +8,8 @@ enum FormMode {
 }
 
 class Login extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => new LoginState();
-
 }
 
 class LoginState extends State<Login> {
@@ -191,6 +188,10 @@ class LoginState extends State<Login> {
           email: email, password: password);
           print("Created ${user.uid}");
         }
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
       } catch (e) {
         print('Error $e');
       }
