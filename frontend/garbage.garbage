@@ -1,0 +1,26 @@
+<div class="chat" id="c">
+	<!-- <div class="chatlog">
+	  <div class="container darker">
+	    <img src="../user_icons/casit.png" alt="Avatar" class="right">
+	    <p>Hello. How are you today?</p>
+	    <span class="username">CASIT</span>
+	    <span class="timestamp">11:05</span>
+	  </div>
+
+	    <div class="container darker">
+	      <img src="../user_icons/duck.png" alt="Avatar" class="right">
+	      <p>Hey! I'm fine. Thanks for asking!</p>
+	      <span class="username">Student</span>
+	      <span class="timestamp">11:07</span>
+	    </div>
+	</div> -->
+</div>
+
+var username = newElement("span");
+appendToElement(username, [newText("USERNAME")]);
+username.setAttribute("class","username");
+
+var icon = newElement("img");
+icon.setAttribute("class","right");
+icon.setAttribute("src","../user_icons/casit.png");
+icon.setAttribute("alt","Avatar");
