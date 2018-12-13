@@ -1,0 +1,33 @@
+html, body{
+    background-color: lightyellow;
+    max-height: 800px;
+}
+
+.head{ grid-area: h; }
+.department{ grid-area: de; }
+.division{ grid-area: di; }
+.chat{ grid-area: c; }
+.foot{ grid-area: f; }
+
+.grid-container{
+    display: grid;
+    grid-template-areas: 
+        'de di h h h h h h'
+        'de di c c c c c c'
+        'de di f f f f f f';
+    grid-gap: 5px;
+    background-color: #154733;
+    padding: 5px;
+    grid-template-rows: 60px 1fr 60px;
+}
+
+.grid-container > div{
+    background-color: #FEE123;
+    text-align: center;
+    font-size: 30px;
+    border-radius: 5px;
+}
+
+#de, #di{
+    height: 95vh;
+}
