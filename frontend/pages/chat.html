@@ -7,40 +7,14 @@
 	<body>
 		<div class="wrapper">
 			<div class="grid-container">
-				<div class="head" id="h">Information</div>
-				<div class="department" id="de">
-					H
-					<br>
-					G
-				</div>
-				<div class="division" id="di">
-					J
-					<br>
-					K
-				</div>  
-				<div class="chat" id="c">
-					<div class="chatlog">
-			          <div class="container darker">
-			            <img src="../user_icons/casit.png" alt="Avatar" class="right">
-			            <p>Hello. How are you today?</p>
-			            <span class="username">CASIT</span>
-			            <span class="timestamp">11:05</span>
-			          </div>
-
-				        <div class="container darker">
-				          <img src="../user_icons/duck.png" alt="Avatar" class="right">
-				          <p>Hey! I'm fine. Thanks for asking!</p>
-				          <span class="username">Student</span>
-				          <span class="timestamp">11:07</span>
-				        </div>
-				    </div>
-				</div>
+				<div class="head" id="h">Click a Name</div>
+				<div class="department" id="de"></div>
+				<div class="division" id="di"></div>  
+				<div class="chat" id="c"></div>
 				<div class="foot" id="f">
 					<div class="messagebox">
-				      <form onsubmit="sendMessage(this);">
 				        <input id="message" type="text" name="message">
 				        <input id="send" type="submit" value="Send">
-				      </form>
 				    </div>
 				</div>
 			</div>
@@ -52,61 +26,89 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script type="text/javascript">
-			function appendToDom(parentID, childID){
-				let parentNode = document.getElementByID(parentID);
 
+			function appendToDom(parentID, child){
+				let parent = document.getElementById(parentID);
+				parent.appendChild(child);
 			}
 
-			function sendMessage(input) {
-				event.preventDefault(); // prevent form submission (i.e. prevent refreshing page)
-
-				msg = input[0].value;
-				input[0].value = "";
-				// msg = "This is a Test Message"
-				// TODO: msg, username, timestamp
-				var div = document.createElement("div");
-				div.setAttribute("class","container darker");
-
-				var icon = document.createElement("img");
-				icon.setAttribute("class","right");
-				icon.setAttribute("src","../user_icons/casit.png");
-				icon.setAttribute("alt","Avatar");
-
-				// todo make it an image
-				var p = document.createElement("p")
-				p.appendChild(document.createTextNode(msg))
-
-				var username = document.createElement("span")
-				username.appendChild(document.createTextNode("USERNAME"))
-				username.setAttribute("class","username");
-
-				var timestamp = document.createElement("span");
-				timestamp.appendChild(document.createTextNode(new Date().toLocaleTimeString()))
-				timestamp.setAttribute("class","timestamp");
-
-				div.appendChild(icon)
-				div.appendChild(p)
-				div.appendChild(username)
-				div.appendChild(timestamp)
-
-				// Appends New Message to Chat Interface
-				chatlog = document.getElementsByClassName("chatlog")[0];
-				console.log(document.getElementsByClassName("chatlog")[0]);
-				chatlog.appendChild(div)
-				$("#c").animate({
-					scrollTop: document.body.scrollHeight
-				}, "fast");
+			function appendToElement(parent, childList){
+				for(let i in childList){
+					parent.appendChild(childList[i]);
+				}
 			}
+
+			function newElement(element){
+				return document.createElement(element);
+			}
+
+			function newText(text){
+				return document.createTextNode(text);
+			}
+
+
+			$("#send").click(function(){
+
+				let msg = $("#message").val();
+				if(msg.trim() != ""){
+					$("#message").val("");
+					// msg = "This is a Test Message"
+					// TODO: msg, username, timestamp
+					var message = newElement("div");
+					message.setAttribute("class","container darker");
+
+					// todo make it an image
+					var text = newElement("p")
+					text.setAttribute("class", "msg");
+					appendToElement(text, [newText(msg)]);
+
+					var timestamp = newElement("span");
+					timestamp.setAttribute("class","timestamp");
+					appendToElement(timestamp, [newText(new Date().toLocaleTimeString())]);
+
+					appendToElement(message, [text, timestamp]);
+
+					// Appends New Message to Chat Interface
+					appendToDom("c", message)
+
+					$("#c").animate({
+						scrollTop: document.body.scrollHeight
+					}, "fast");
+				}else{
+					console.log("Blank");
+				}
+			});
 
 			var departments = ["TSD", "CASIT", "NTS"];
 			var divisions = {};
 			divisions[departments[0]] = ["Noah", "Jeremiah", "Cody", "Derek"];
 			divisions[departments[1]] = ["Billy", "Hammond", "Gertrude"];
 			divisions[departments[2]] = ["Hortence", "Jeredith", "Merideth"];
-			$(document).ready(function(){
-				// console.log(divisions);
 
+			function loadDivisions(dept){
+				$("#di").html("");
+				let curr_division = divisions[dept];
+				for(let i in curr_division){
+					$("#di").append("<button class='divis' id='" + curr_division[i] + "' >" + curr_division[i] + "</button><br>");
+				}
+				$(".divis").click(function(data){
+					$("#h").html(data.target.id);
+				});
+			}
+
+			$(document).ready(function(){
+				for(let i in departments){
+					$("#de").append("<button class='dept' id='" + departments[i] + "'>" + departments[i] + "</button><br>");
+				}
+				loadDivisions(departments[0]);
+				
+				$(".dept").click(function(data){
+					loadDivisions(data.target.id);
+				});
+
+				
 			});
+			
 		</script>
 	</footer>
 </html>
