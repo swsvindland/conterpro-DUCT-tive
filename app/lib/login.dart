@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:async';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
+import 'globals.dart' as globals;
 
 String email;
 String password;
@@ -185,11 +184,11 @@ class LoginState extends State<Login> {
         if(formMode == FormMode.SIGNIN) {
           var url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/login";
           http.post(url, body: '{"type":"m.login.password", "user":"sam", "password":"password1234"}').then((response) {
-            j = json.decode(response.body)['access_token'];
+            globals.token = json.decode(response.body)['access_token'];
           });
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Home(j)),
+            MaterialPageRoute(builder: (context) => Home()),
           );
         } else {
         }
