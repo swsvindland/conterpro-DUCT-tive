@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 const String name = 'Sam';
 
@@ -56,6 +58,10 @@ class ChatScreenState extends State<ChatScreen> {
     );
     setState(() {
       messages.insert(0, message);
+    });
+    var url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/rooms/%21QTariydDPoGYvWlazW:counterproducktivechat.tk/send/m.room.message?access_token=MDAyN2xvY2F0aW9uIGNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxM2lkZW50aWZpZXIga2V5CjAwMTBjaWQgZ2VuID0gMQowMDMxY2lkIHVzZXJfaWQgPSBAc2FtOmNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxNmNpZCB0eXBlID0gYWNjZXNzCjAwMjFjaWQgbm9uY2UgPSA4aGx3Oko7bENNUTdxeW4mCjAwMmZzaWduYXR1cmUg_hav8l5IME_ian1CxcZ2psZeu4XpzAYumU32UoakmDUK";
+    http.post(url, body: '{"msgtype":"m.text", "body":"${text}"}').then((response) {
+      print("sent ${text} to ${response.body}");
     });
   }
 
