@@ -19,15 +19,78 @@
 					K
 				</div>  
 				<div class="chat" id="c">
-					Chat
+					<div class="chatlog">
+			          <div class="container darker">
+			            <img src="../user_icons/casit.png" alt="Avatar" class="right">
+			            <p>Hello. How are you today?</p>
+			            <span class="username">CASIT</span>
+			            <span class="timestamp">11:05</span>
+			          </div>
+
+			        <div class="container darker">
+			          <img src="../user_icons/duck.png" alt="Avatar" class="right">
+			          <p>Hey! I'm fine. Thanks for asking!</p>
+			          <span class="username">Student</span>
+			          <span class="timestamp">11:07</span>
+			        </div>
+			    </div>
 				</div>
-				<div class="foot" id="f">Foot</div>
+				<div class="foot" id="f">
+					<div class="messagebox">
+				      <form onsubmit="sendMessage(this);">
+				        <input id="message" type="text" name="message">
+				        <input type="submit" value="Send">
+				      </form>
+				    </div>
+				</div>
 			</div>
 		</div>
 	</body>
 	<footer>
+		<!-- <script src="../scripts/chat.js"></script> -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script type="text/javascript">
-			
+			function sendMessage(input) {
+				event.preventDefault(); // prevent form submission (i.e. prevent refreshing page)
+
+				msg = input[0].value;
+				input[0].value = "";
+				// msg = "This is a Test Message"
+				// TODO: msg, username, timestamp
+				var div = document.createElement("div");
+				div.setAttribute("class","container darker");
+
+				var icon = document.createElement("img");
+				icon.setAttribute("class","right");
+				icon.setAttribute("src","../user_icons/casit.png");
+				icon.setAttribute("alt","Avatar");
+
+				// todo make it an image
+				var p = document.createElement("p")
+				p.appendChild(document.createTextNode(msg))
+
+				var username = document.createElement("span")
+				username.appendChild(document.createTextNode("USERNAME"))
+				username.setAttribute("class","username");
+
+				var timestamp = document.createElement("span");
+				timestamp.appendChild(document.createTextNode(new Date().toLocaleTimeString()))
+				timestamp.setAttribute("class","timestamp");
+
+				div.appendChild(icon)
+				div.appendChild(p)
+				div.appendChild(username)
+				div.appendChild(timestamp)
+
+				// Appends New Message to Chat Interface
+				chatlog = document.getElementsByClassName("chatlog")[0];
+				chatlog.appendChild(div)
+				$("#c").animate({
+					scrollTop: document.body.scrollHeight
+				}, "fast");
+			}
 		</script>
 	</footer>
 </html>
