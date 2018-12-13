@@ -1,0 +1,9 @@
+curl -XPOST -d '{"type":"m.login.password", "user":"sam", "password":"password1234"}' "https://counterproducktivechat.tk:8448/_matrix/client/r0/login"
+
+curl -XPOST -d '{"room_alias_name":"tutorial"}' "https://counterproducktivechat.tk:8448/_matrix/client/r0/createRoom?access_token=MDAyN2xvY2F0aW9uIGNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxM2lkZW50aWZpZXIga2V5CjAwMTBjaWQgZ2VuID0gMQowMDMxY2lkIHVzZXJfaWQgPSBAc2FtOmNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxNmNpZCB0eXBlID0gYWNjZXNzCjAwMjFjaWQgbm9uY2UgPSA4aGx3Oko7bENNUTdxeW4mCjAwMmZzaWduYXR1cmUg_hav8l5IME_ian1CxcZ2psZeu4XpzAYumU32UoakmDUK"
+
+curl -XPOST -d '{"msgtype":"m.text", "body":"hello world"}' "https://counterproducktivechat.tk:8448/_matrix/client/r0/rooms/%21QTariydDPoGYvWlazW:counterproducktivechat.tk/send/m.room.message?access_token=MDAyN2xvY2F0aW9uIGNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxM2lkZW50aWZpZXIga2V5CjAwMTBjaWQgZ2VuID0gMQowMDMxY2lkIHVzZXJfaWQgPSBAc2FtOmNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxNmNpZCB0eXBlID0gYWNjZXNzCjAwMjFjaWQgbm9uY2UgPSA4aGx3Oko7bENNUTdxeW4mCjAwMmZzaWduYXR1cmUg_hav8l5IME_ian1CxcZ2psZeu4XpzAYumU32UoakmDUK"
+
+curl --globoff -XGET 'https://counterproducktivechat.tk:8448/_matrix/client/r0/sync?filter={"room":{"timeline":{"limit":1}}}&access_token=MDAyN2xvY2F0aW9uIGNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxM2lkZW50aWZpZXIga2V5CjAwMTBjaWQgZ2VuID0gMQowMDMxY2lkIHVzZXJfaWQgPSBAc2FtOmNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxNmNpZCB0eXBlID0gYWNjZXNzCjAwMjFjaWQgbm9uY2UgPSA4aGx3Oko7bENNUTdxeW4mCjAwMmZzaWduYXR1cmUg_hav8l5IME_ian1CxcZ2psZeu4XpzAYumU32UoakmDUK'
+
+curl -XGET "https://counterproducktivechat.tk:8448/_matrix/client/r0/sync?access_token=MDAyN2xvY2F0aW9uIGNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxM2lkZW50aWZpZXIga2V5CjAwMTBjaWQgZ2VuID0gMQowMDMxY2lkIHVzZXJfaWQgPSBAc2FtOmNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxNmNpZCB0eXBlID0gYWNjZXNzCjAwMjFjaWQgbm9uY2UgPSA4aGx3Oko7bENNUTdxeW4mCjAwMmZzaWduYXR1cmUg_hav8l5IME_ian1CxcZ2psZeu4XpzAYumU32UoakmDUK"
