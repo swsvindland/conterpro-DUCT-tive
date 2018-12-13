@@ -91,6 +91,15 @@
 					scrollTop: document.body.scrollHeight
 				}, "fast");
 			}
+
+			var departments = ["TSD", "CASIT", "NTS"];
+			var divisions = {};
+			divisions[departments[0]] = ["Noah", "Jeremiah", "Cody", "Derek"];
+			divisions[departments[1]] = ["Billy", "Hammond", "Gertrude"];
+			divisions[departments[2]] = ["Hortence", "Jeredith", "Merideth"];
+			$(document).ready(function(){
+				console.log(divisions);
+			});
 		</script>
 	</footer>
 </html>
