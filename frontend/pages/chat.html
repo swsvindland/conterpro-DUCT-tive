@@ -27,13 +27,13 @@
 			            <span class="timestamp">11:05</span>
 			          </div>
 
-			        <div class="container darker">
-			          <img src="../user_icons/duck.png" alt="Avatar" class="right">
-			          <p>Hey! I'm fine. Thanks for asking!</p>
-			          <span class="username">Student</span>
-			          <span class="timestamp">11:07</span>
-			        </div>
-			    </div>
+				        <div class="container darker">
+				          <img src="../user_icons/duck.png" alt="Avatar" class="right">
+				          <p>Hey! I'm fine. Thanks for asking!</p>
+				          <span class="username">Student</span>
+				          <span class="timestamp">11:07</span>
+				        </div>
+				    </div>
 				</div>
 				<div class="foot" id="f">
 					<div class="messagebox">
@@ -52,6 +52,11 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script type="text/javascript">
+			function appendToDom(parentID, childID){
+				let parentNode = document.getElementByID(parentID);
+
+			}
+
 			function sendMessage(input) {
 				event.preventDefault(); // prevent form submission (i.e. prevent refreshing page)
 
@@ -86,6 +91,7 @@
 
 				// Appends New Message to Chat Interface
 				chatlog = document.getElementsByClassName("chatlog")[0];
+				console.log(document.getElementsByClassName("chatlog")[0]);
 				chatlog.appendChild(div)
 				$("#c").animate({
 					scrollTop: document.body.scrollHeight
@@ -98,7 +104,8 @@
 			divisions[departments[1]] = ["Billy", "Hammond", "Gertrude"];
 			divisions[departments[2]] = ["Hortence", "Jeredith", "Merideth"];
 			$(document).ready(function(){
-				console.log(divisions);
+				// console.log(divisions);
+
 			});
 		</script>
 	</footer>
