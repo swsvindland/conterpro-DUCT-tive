@@ -7,7 +7,7 @@
 	<body>
 		<div class="wrapper">
 			<div class="grid-container">
-				<div class="head" id="h">Click a Name</div>
+				<div class="head" id="h">Sam</div>
 				<div class="department" id="de"></div>
 				<div class="division" id="di"></div>  
 				<div class="chat" id="c"></div>
@@ -29,6 +29,8 @@
 		
 		<script type="text/javascript">
 			var accesstoken, homeserver, userid;
+			var allmessages = [];
+			var allmessagesoldlength;
 			
 			function appendToDom(parentID, child){
 				let parent = document.getElementById(parentID);
@@ -54,36 +56,14 @@
 				let msg = $("#message").val();
 				if(msg.trim() != ""){
 					$("#message").val("");
-					// msg = "This is a Test Message"
-					// TODO: msg, username, timestamp
-					var message = newElement("div");
-					message.setAttribute("class","container darker");
-
-					// todo make it an image
-					var text = newElement("p")
-					text.setAttribute("class", "msg");
-					appendToElement(text, [newText(msg)]);
-
-					var timestamp = newElement("span");
-					timestamp.setAttribute("class","timestamp");
-					appendToElement(timestamp, [newText(new Date().toLocaleTimeString())]);
-
-					appendToElement(message, [text, timestamp]);
-
-					// Appends New Message to Chat Interface
-					appendToDom("c", message)
 
 					let url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/rooms/%21QTariydDPoGYvWlazW:counterproducktivechat.tk/send/m.room.message?access_token=" + accesstoken;
 					let data = '{"msgtype":"m.text", "body":"' + msg + '"}';
 					$.post(url, data, function(return_data, status){
-						console.log(return_data);
 						console.log(status);
+						syncData();
 					});
 
-
-					$("#c").animate({
-						scrollTop: document.body.scrollHeight
-					}, "fast");
 				}else{
 					console.log("Blank");
 				}
@@ -93,7 +73,7 @@
 
 			var departments = ["TSD", "CASIT", "NTS"];
 			var divisions = {};
-			divisions[departments[0]] = ["Noah", "Jeremiah", "Cody", "Derek"];
+			divisions[departments[0]] = ["Sam", "Noah", "Jeremiah", "Cody", "Derek"];
 			divisions[departments[1]] = ["Billy", "Hammond", "Gertrude"];
 			divisions[departments[2]] = ["Hortence", "Jeredith", "Merideth"];
 
@@ -119,10 +99,79 @@
 				});
 			});
 
+			function sendText(msg){
+				var message = newElement("div");
+				message.setAttribute("class","container darker");
+
+				// todo make it an image
+				var text = newElement("p")
+				text.setAttribute("class", "msg");
+				appendToElement(text, [newText(msg)]);
+
+				var timestamp = newElement("span");
+				timestamp.setAttribute("class","timestamp");
+				appendToElement(timestamp, [newText(new Date().toLocaleTimeString())]);
+
+				appendToElement(message, [text, timestamp]);
+
+				// Appends New Message to Chat Interface
+				appendToDom("c", message)
+
+				$("#c").animate({
+					scrollTop: document.body.scrollHeight
+				}, "fast");
+			}
+
+			function receiveText(msg){
+				var message = newElement("div");
+				message.setAttribute("class","container lighter");
+
+				// todo make it an image
+				var text = newElement("p")
+				text.setAttribute("class", "msg");
+				appendToElement(text, [newText(msg)]);
+
+				var timestamp = newElement("span");
+				timestamp.setAttribute("class","timestamp");
+				appendToElement(timestamp, [newText(new Date().toLocaleTimeString())]);
+
+				appendToElement(message, [text, timestamp]);
+
+				// Appends New Message to Chat Interface
+				appendToDom("c", message)
+
+				$("#c").animate({
+					scrollTop: document.body.scrollHeight
+				}, "fast");
+			}
+
 			function syncData(){
+				allmessagesoldlength = allmessages.length;
+				allmessages = [];
 				let url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/sync?access_token=" + accesstoken;
 				$.get(url, function(json){
-					console.log(json);
+					// console.log(json.rooms.join["!QTariydDPoGYvWlazW:counterproducktivechat.tk"].timeline.events);
+					let data = json.rooms.join["!QTariydDPoGYvWlazW:counterproducktivechat.tk"].timeline.events;
+					
+					for(let i in data){
+						let sender = data[i].sender;
+						sender = sender.substring(1, sender.indexOf(":"));
+						let text = data[i].content.body;
+						allmessages.push([sender, text]);
+					}
+
+					let numNewMessages = allmessages.length - allmessagesoldlength;
+					if(numNewMessages > 0){
+						$("#c").html("");
+						for(let i = allmessages.length - numNewMessages; i < allmessages.length; i++){
+							sendText(allmessages[i][0] + ": " + allmessages[i][1]);
+							// if(allmessages[i][0] = "sam"){
+							// 	sendText(allmessages[i][0] + ": " + allmessages[i][1]);
+							// }else{
+							// 	receiveText(allmessages[i][0] + ": " + allmessages[i][1]);
+							// }
+						}
+					}
 				});
 			}
 
@@ -130,7 +179,6 @@
 			let url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/login";
 			let data = '{"type":"m.login.password", "user":"noah", "password":"password"}';
 			$.post(url, data, function(return_data, status){
-				console.log(return_data);
 				if(status == "success"){
 					accesstoken = return_data.access_token;
 					homeserver = return_data.home_server;
@@ -141,12 +189,9 @@
 					userid = "ERROR";
 					console.log(status);
 				}
-
-				
-				setInterval(syncData, 3000);
 			});
 
-
+			var temp = setInterval("syncData()", 400);
 
 		</script>
 	</footer>
