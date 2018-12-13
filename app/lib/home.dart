@@ -1,45 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:background_fetch/background_fetch.dart';
-
+import 'globals.dart' as globals;
+import 'dart:convert';
 
 
 const String name = 'Sam';
 
 class Home extends StatelessWidget {
-  Home(this.token);
-  final String token;
 
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Home',
-      home: new ChatScreen(token),
+      home: new ChatScreen(),
     );
   }
 }
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen(this.token);
-  final String token;
 
   @override
-  State createState() => new ChatScreenState(token);
+  State createState() => new ChatScreenState();
 }
 
 class ChatScreenState extends State<ChatScreen> {
-  ChatScreenState(this.token);
-  final String token;
   final List<ChatMessage> messages = <ChatMessage>[];
   final TextEditingController textController = new TextEditingController();
   bool _enabled = true;
   int _status = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,58 +66,25 @@ class ChatScreenState extends State<ChatScreen> {
     setState(() {
       messages.insert(0, message);
     });
-    print("The token is ${token}");
-    var url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/rooms/%21QTariydDPoGYvWlazW:counterproducktivechat.tk/send/m.room.message?access_token=MDAyN2xvY2F0aW9uIGNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxM2lkZW50aWZpZXIga2V5CjAwMTBjaWQgZ2VuID0gMQowMDMxY2lkIHVzZXJfaWQgPSBAc2FtOmNvdW50ZXJwcm9kdWNrdGl2ZWNoYXQudGsKMDAxNmNpZCB0eXBlID0gYWNjZXNzCjAwMjFjaWQgbm9uY2UgPSA4aGx3Oko7bENNUTdxeW4mCjAwMmZzaWduYXR1cmUg_hav8l5IME_ian1CxcZ2psZeu4XpzAYumU32UoakmDUK";
+    var url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/rooms/%21QTariydDPoGYvWlazW:counterproducktivechat.tk/send/m.room.message?access_token=${globals.token}";
     http.post(url, body: '{"msgtype":"m.text", "body":"${text}"}').then((response) {
       print("sent ${text} to ${response.body}");
     });
   }
 
-  Future<void> initPlatformState() async {
-    // Configure BackgroundFetch.
-    BackgroundFetch.configure(BackgroundFetchConfig(
-        minimumFetchInterval: 15,
-        startOnBoot: true,
-        stopOnTerminate: false,
-        enableHeadless: true
-    ), () async {
-      // This is the fetch-event callback.
-      print('[BackgroundFetch] Event received');
-      setState(() {
-        ChatMessage message = new ChatMessage(
-          text: 'test',
-        );
-        messages.insert(0, message);
-      });
-      // IMPORTANT:  You must signal completion of your fetch task or the OS can punish your app
-      // for taking too long in the background.
-      BackgroundFetch.finish();
-    }).then((int status) {
-      print('[BackgroundFetch] SUCCESS: $status');
-      setState(() {
-        ChatMessage message = new ChatMessage(
-          text: 'test',
-        );
-        messages.insert(0, message);
-        _status = status;
-      });
-    }).catchError((e) {
-      print('[BackgroundFetch] ERROR: $e');
-      setState(() {
-        _status = e;
-      });
+  void downloadList() {
+    var toParse;
+    var url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/sync?access_token=${globals.token}";
+    http.get(url).then((response) {
+      toParse = json.decode(response.body);
     });
-
-    // Optionally query the current BackgroundFetch status.
-    int status = await BackgroundFetch.status;
+    textController.clear();
+    ChatMessage message = new ChatMessage(
+      text: 'testing',
+    );
     setState(() {
-      _status = status;
+      messages.insert(0, message);
     });
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
   }
 
   Widget buildTextComposer() {

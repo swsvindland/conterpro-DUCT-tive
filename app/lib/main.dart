@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:background_fetch/background_fetch.dart';
+import 'dart:async';
 import 'login.dart';
-
-void backgroundFetchHeadlessTask() async {
-  print('[BackgroundFetch] Headless event received.');
-  BackgroundFetch.finish();
-}
+import 'home.dart' as home;
 
 void main() {
   runApp(MyApp());
-
-  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+  const oneSecond = const Duration(seconds:30);
+  new Timer.periodic(oneSecond, (Timer t) => (home.ChatScreenState().downloadList()));
 }
 
 class MyApp extends StatelessWidget {
