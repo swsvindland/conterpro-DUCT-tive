@@ -89,6 +89,8 @@
 				}
 			});
 
+
+
 			var departments = ["TSD", "CASIT", "NTS"];
 			var divisions = {};
 			divisions[departments[0]] = ["Noah", "Jeremiah", "Cody", "Derek"];
@@ -117,7 +119,12 @@
 				});
 			});
 
-			
+			function syncData(){
+				let url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/sync?access_token=" + accesstoken;
+				$.get(url, function(json){
+					console.log(json);
+				});
+			}
 
 
 			let url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/login";
@@ -134,9 +141,10 @@
 					userid = "ERROR";
 					console.log(status);
 				}
-			});
 
-			
+				
+				setInterval(syncData, 3000);
+			});
 
 
 
