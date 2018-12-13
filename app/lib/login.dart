@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
+
+String email;
+String password;
 
 enum FormMode {
   SIGNIN, 
@@ -13,8 +19,6 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
-  String email;
-  String password;
   FormMode formMode = FormMode.SIGNIN;
   final formKey = new GlobalKey<FormState>();
 
@@ -177,25 +181,21 @@ class LoginState extends State<Login> {
   void validateAndSubmit() async {
     if(validateAndSave()) {
       try {
+        var j;
         if(formMode == FormMode.SIGNIN) {
-          FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email,
-            password: password
+          var url = "https://counterproducktivechat.tk:8448/_matrix/client/r0/login";
+          http.post(url, body: '{"type":"m.login.password", "user":"sam", "password":"password1234"}').then((response) {
+            j = json.decode(response.body)['access_token'];
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Home(j)),
           );
-          print("Signed in ${user.uid}");
         } else {
-          FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email, password: password);
-          print("Created ${user.uid}");
         }
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Home()),
-        );
       } catch (e) {
         print('Error $e');
       }
     }
   }
 }
-

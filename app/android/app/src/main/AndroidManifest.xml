@@ -19,7 +19,6 @@
         android:label="app"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name=".Application"
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -38,5 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
     </application>
 </manifest>

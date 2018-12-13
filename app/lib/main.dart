@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:background_fetch/background_fetch.dart';
 import 'login.dart';
 
-void main() => runApp(MyApp());
+void backgroundFetchHeadlessTask() async {
+  print('[BackgroundFetch] Headless event received.');
+  BackgroundFetch.finish();
+}
+
+void main() {
+  runApp(MyApp());
+
+  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+}
 
 class MyApp extends StatelessWidget {
   @override
