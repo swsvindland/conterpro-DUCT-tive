@@ -80,6 +80,11 @@ class ChatScreenState extends State<ChatScreen> {
     for(var i = 0; i < toList.length; ++i) {
       var a = toList[i]['content']['body'];
       print(a);
+      ChatMessage message = new ChatMessage(
+        text: a,
+      );
+      messages.insert(0, message);
+      print(messages);
     }
   }
 
