@@ -1,0 +1,1 @@
+server {\nlisten 80;\nlisten [::]:80;\nroot /var/www/html;\nindex index.html index.htm index.nginx-debian.html;\nserver_name  www.;\nlocation /_matrix {\nproxy_pass http://localhost:8008;\n}\nlocation ~ /.well-known {\nallow all;\n}\n}\n

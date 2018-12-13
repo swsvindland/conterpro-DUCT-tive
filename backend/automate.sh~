@@ -1,0 +1,13 @@
+echo "Updating apt..."
+sudo apt update
+echo "Adding Matrix Repository."
+sudo add-apt-repository https://matrix.org/packages/debian/
+wget -qO - https://matrix.org/packages/debian/repo-key.asc | sudo apt-key add -
+echo "Updating apt again..."
+sudo apt update
+echo "Installing Matrix Synapse Server."
+sudo apt install matrix-synapse
+echo "Enabling start at boot and starting server now"
+sudo systemctl start matrix-synapse
+echo "Setting random shared secret"
+rand = cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1

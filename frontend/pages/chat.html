@@ -110,7 +110,14 @@
 		</script>
 		<script type="text/javascript">
 
+		  let sdk = require("matrix-js-sdk");
+		  let client = sdk.createClient("https://counterproducktivechat.tk");
+
+		  client.publicRooms(function(err, data){
+
+		  console.log("Public Rooms: %s", JSON.stringify(data));
 		  
+		  });
 		  
 		</script>
 	</footer>
